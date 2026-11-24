@@ -82,10 +82,19 @@ class KeySoundEngine {
   private sampleUrl: string | null = null;
   private volume = 0.8;
 
+  /** Phone speakers are quiet, so give touch devices extra headroom (the compressor stops clipping). */
+  private boost(): number {
+    try {
+      return typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches ? 1.9 : 1;
+    } catch {
+      return 1;
+    }
+  }
+
   setVolume(v: number) {
     this.volume = Math.min(1, Math.max(0, v));
     if (this.ctx && this.master) {
-      this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.02);
+      this.master.gain.setTargetAtTime(this.volume * this.boost(), this.ctx.currentTime, 0.02);
     }
   }
 
@@ -132,7 +141,7 @@ class KeySoundEngine {
 
   private build(c: AudioContext) {
     const master = c.createGain();
-    master.gain.value = this.volume;
+    master.gain.value = this.volume * this.boost();
     const comp = c.createDynamicsCompressor();
     comp.threshold.value = -18;
     comp.ratio.value = 4;
@@ -371,6 +380,112 @@ class KeySoundEngine {
         if (kind === "space") {
           this.tone({ type: "sine", f: 78, f2: 44, t, dur: 0.4, gain: 0.6 });
         }
+        break;
+      }
+      case "goku": {
+        this.mech(t, 170, s, 0.6);
+        this.tone({ type: "sawtooth", f: 220 * s.pitch, f2: 900 * s.pitch, t, dur: 0.12 * s.dur, gain: 0.16 * s.gain, lp: 3200, send: 0.2 });
+        this.burst({ t, dur: 0.05, gain: 0.25 * s.gain, type: "bandpass", f: 3000, q: 2 });
+        if (kind === "enter") {
+          this.tone({ type: "sawtooth", f: 90, f2: 700, t, dur: 0.38, gain: 0.2, lp: 2600, send: 0.4 });
+          this.burst({ t, dur: 0.32, gain: 0.25, type: "bandpass", f: 500, f2: 5000, q: 1.2, send: 0.4 });
+        }
+        if (kind === "space") {
+          this.tone({ type: "sine", f: 96, f2: 40, t, dur: 0.4, gain: 0.8, lp: 260 });
+          this.burst({ t, dur: 0.18, gain: 0.45, type: "lowpass", f: 320 });
+        }
+        break;
+      }
+      case "luffy": {
+        const b = rnd(0.95, 1.08);
+        this.tone({ type: "sine", f: 260 * b * s.pitch, f2: 620 * b * s.pitch, t, dur: 0.07 * s.dur, gain: 0.5 * s.gain });
+        this.tone({ type: "sine", f: 620 * b * s.pitch, f2: 340 * b, t: t + 0.06, dur: 0.07, gain: 0.3 * s.gain });
+        this.burst({ t, dur: 0.02, gain: 0.3, type: "bandpass", f: 1800, q: 1.5 });
+        if (kind === "enter") {
+          this.tone({ type: "sine", f: 300, f2: 900, t: t + 0.1, dur: 0.12, gain: 0.35 });
+        }
+        if (kind === "space") {
+          this.tone({ type: "sine", f: 110, f2: 420, t, dur: 0.28, gain: 0.6, lp: 700 });
+        }
+        break;
+      }
+      case "levi": {
+        this.mech(t, 200, s, 0.55);
+        this.burst({ t, dur: 0.05, gain: 0.4 * s.gain, type: "highpass", f: 6500, f2: 3200, q: 0.8 });
+        this.tone({ type: "triangle", f: 2400 * s.pitch, f2: 1700 * s.pitch, t, dur: 0.08, gain: 0.1 * s.gain });
+        if (kind === "enter") {
+          this.burst({ t, dur: 0.2, gain: 0.3, type: "bandpass", f: 1200, f2: 5200, q: 2, send: 0.2 });
+        }
+        if (kind === "space") {
+          this.tone({ type: "sine", f: 120, f2: 55, t, dur: 0.22, gain: 0.7, lp: 400 });
+        }
+        break;
+      }
+      case "naruto": {
+        this.mech(t, 190, s, 0.6);
+        const f = SCALE_GOJO[n % SCALE_GOJO.length] * 0.75 * (kind === "space" ? 0.5 : 1);
+        this.tone({ type: "sine", f, t, dur: 0.3, gain: 0.14 * s.gain, attack: 0.003, send: 0.35 });
+        this.burst({ t, dur: 0.04, gain: 0.25, type: "lowpass", f: 900 });
+        if (kind === "enter") {
+          this.burst({ t, dur: 0.34, gain: 0.3, type: "bandpass", f: 300, f2: 3200, q: 1.1, send: 0.5 });
+        }
+        if (kind === "space") {
+          this.burst({ t, dur: 0.2, gain: 0.5, type: "lowpass", f: 520 });
+          this.tone({ type: "sine", f: 100, f2: 52, t, dur: 0.25, gain: 0.6 });
+        }
+        break;
+      }
+      case "minecraft": {
+        const b = rnd(0.9, 1.12);
+        this.tone({ type: "square", f: 230 * b * s.pitch, f2: 120 * b, t, dur: 0.05 * s.dur, gain: 0.2 * s.gain, lp: 1800 });
+        this.burst({ t, dur: 0.045, gain: 0.45 * s.gain, type: "bandpass", f: 750 * b, q: 1.6 });
+        if (kind === "enter") {
+          this.tone({ type: "sine", f: 1046.5, f2: 1318.5, t, dur: 0.1, gain: 0.15, send: 0.2 });
+          this.tone({ type: "sine", f: 1568, t: t + 0.08, dur: 0.3, gain: 0.14, send: 0.2 });
+        }
+        if (kind === "space") {
+          this.tone({ type: "sine", f: 90, f2: 50, t, dur: 0.2, gain: 0.7, lp: 300 });
+        }
+        break;
+      }
+      case "valorant": {
+        this.mech(t, 230, s, 0.8);
+        this.burst({ t, dur: 0.015, gain: 0.4, type: "highpass", f: 3800 });
+        this.tone({ type: "sine", f: 1800 * s.pitch, t, dur: 0.03, gain: 0.08 });
+        if (kind === "enter") {
+          this.tone({ type: "sine", f: 1200, t, dur: 0.07, gain: 0.12 });
+          this.tone({ type: "sine", f: 1800, t: t + 0.08, dur: 0.12, gain: 0.12 });
+        }
+        if (kind === "space") {
+          this.tone({ type: "sine", f: 130, f2: 80, t, dur: 0.16, gain: 0.6, lp: 380 });
+        }
+        break;
+      }
+      case "zelda": {
+        const f = SCALE_LEO[n % SCALE_LEO.length] * (kind === "space" ? 0.5 : 1);
+        this.mech(t, 180, s, 0.45);
+        this.tone({ type: "sine", f, t, dur: 0.45, gain: 0.16 * s.gain, attack: 0.006, send: 0.5 });
+        this.tone({ type: "triangle", f: f * 2, t, dur: 0.22, gain: 0.04, attack: 0.004, send: 0.4 });
+        if (kind === "enter") {
+          [1, 1.26, 1.5, 2].forEach((m, i) =>
+            this.tone({ type: "sine", f: 784 * m, t: t + i * 0.07, dur: 0.4, gain: 0.12, send: 0.5 }),
+          );
+        }
+        break;
+      }
+      case "mario": {
+        const f = SCALE_VICE[n % SCALE_VICE.length] * 2;
+        if (kind === "enter") {
+          this.tone({ type: "square", f: 987.77, t, dur: 0.08, gain: 0.1, lp: 5000, attack: 0.001 });
+          this.tone({ type: "square", f: 1318.51, t: t + 0.08, dur: 0.4, gain: 0.1, lp: 5000, attack: 0.001 });
+        } else if (kind === "space") {
+          this.tone({ type: "square", f: 300, f2: 820, t, dur: 0.2, gain: 0.1, lp: 4000, attack: 0.001 });
+        } else if (kind === "back") {
+          this.tone({ type: "square", f: 160, f2: 110, t, dur: 0.07, gain: 0.14, lp: 1500 });
+        } else {
+          this.tone({ type: "square", f, t, dur: 0.07, gain: 0.08, lp: 5000, attack: 0.001 });
+        }
+        this.burst({ t, dur: 0.01, gain: 0.15, type: "highpass", f: 4000 });
         break;
       }
       case "leonida": {
