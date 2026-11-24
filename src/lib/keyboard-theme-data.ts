@@ -9,7 +9,9 @@ export type KeyboardLayout = "qwerty" | "azerty" | "dvorak";
 export type SoundPackId =
   | "sample" | "thock"
   | "gojo" | "sukuna" | "akatsuki" | "eva" | "tanjiro"
-  | "vice" | "leonida";
+  | "vice" | "leonida"
+  | "goku" | "luffy" | "levi" | "naruto"
+  | "minecraft" | "valorant" | "zelda" | "mario";
 
 export type ThemeGroup = "anime" | "gta" | "games" | "classic";
 
@@ -269,28 +271,28 @@ export const THEME_META: Record<KeyboardTheme, ThemeMeta> = {
   },
 
   goku: {
-    label: "Goku", title: "Goku", group: "anime", sound: "akatsuki", sampleRate: 1.05,
+    label: "Goku", title: "Goku", group: "anime", sound: "goku", sampleRate: 1.05,
     tagline: "Super Saiyan gold aura, orange gi caps, ki-blast clicks.",
     accent: "#ffc400", accentB: "#2f7bff", font: "mincho",
     kanji: "龍珠",
     legends: { Escape: "気", Enter: "界王拳", Space: "かめはめ波" },
   },
   luffy: {
-    label: "Luffy", title: "Luffy", group: "anime", sound: "tanjiro", sampleRate: 1.1,
+    label: "Luffy", title: "Luffy", group: "anime", sound: "luffy", sampleRate: 1.1,
     tagline: "Straw-hat gold, Grand Line blue, rubber-snap keys.",
     accent: "#ffcf3a", accentB: "#35b6ff", font: "mincho",
     kanji: "海賊王",
     legends: { Escape: "麦", Enter: "ギア5", Space: "海賊王" },
   },
   levi: {
-    label: "Levi", title: "Levi", group: "anime", sound: "akatsuki", sampleRate: 0.95,
+    label: "Levi", title: "Levi", group: "anime", sound: "levi", sampleRate: 0.95,
     tagline: "Survey Corps green and ODM steel. Clean, sharp, precise.",
     accent: "#c9d3d9", accentB: "#4f8a5e", font: "mincho",
     kanji: "自由の翼",
     legends: { Escape: "翼", Enter: "斬", Space: "調査兵団" },
   },
   naruto: {
-    label: "Naruto", title: "Naruto", group: "anime", sound: "gojo", sampleRate: 1.1,
+    label: "Naruto", title: "Naruto", group: "anime", sound: "naruto", sampleRate: 1.1,
     tagline: "Konoha orange, Rasengan blue chime, never-give-up keys.",
     accent: "#ff8a1f", accentB: "#4db8ff", font: "mincho",
     kanji: "火影",
@@ -310,26 +312,26 @@ export const THEME_META: Record<KeyboardTheme, ThemeMeta> = {
     legends: { Escape: "LE", Space: "leonida" },
   },
   minecraft: {
-    label: "Minecraft", title: "Minecraft", group: "games", sound: "tanjiro", sampleRate: 0.9,
+    label: "Minecraft", title: "Minecraft", group: "games", sound: "minecraft", sampleRate: 0.9,
     tagline: "Dirt, stone and grass blocks. Every key is a block break.",
     accent: "#5dd13a", accentB: "#c8935a", font: "pixel",
     legends: { Escape: "ESC", Space: "CRAFT" },
   },
   valorant: {
-    label: "Valorant", title: "Valorant", group: "games", sound: "eva", sampleRate: 1.15,
+    label: "Valorant", title: "Valorant", group: "games", sound: "valorant", sampleRate: 1.15,
     tagline: "Radiant red on slate. Tactical, crisp, ready to clutch.",
     accent: "#ff4655", accentB: "#ece8e1", font: "display",
     legends: { Escape: "VAL", Space: "PLANT" },
   },
   zelda: {
-    label: "Zelda", title: "Zelda", group: "games", sound: "leonida", sampleRate: 1.2,
+    label: "Zelda", title: "Zelda", group: "games", sound: "zelda", sampleRate: 1.2,
     tagline: "Hyrule green, Triforce gold, Sheikah-blue chimes.",
     accent: "#e3c568", accentB: "#7ff0ff", font: "mincho",
     kanji: "神々のトライフォース",
     legends: { Escape: "△", Space: "HYRULE" },
   },
   mario: {
-    label: "Mario", title: "Mario", group: "games", sound: "vice", sampleRate: 1.3,
+    label: "Mario", title: "Mario", group: "games", sound: "mario", sampleRate: 1.3,
     tagline: "Red cap, blue overalls, coin-bright arcade keys.",
     accent: "#ffe14d", accentB: "#e8352e", font: "pixel",
     legends: { Escape: "1UP", Space: "JUMP" },
@@ -363,6 +365,14 @@ export const SOUND_PACKS: { id: SoundPackId; label: string }[] = [
   { id: "tanjiro", label: "Bamboo" },
   { id: "vice", label: "Synth" },
   { id: "leonida", label: "Kalimba" },
+  { id: "goku", label: "Ki-blast" },
+  { id: "luffy", label: "Rubber" },
+  { id: "levi", label: "Blade" },
+  { id: "naruto", label: "Chakra" },
+  { id: "minecraft", label: "Block" },
+  { id: "valorant", label: "Tactical" },
+  { id: "zelda", label: "Ocarina" },
+  { id: "mario", label: "Coin" },
 ];
 
 /** Pick black or white text for a given #rrggbb background. */
