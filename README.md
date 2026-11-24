@@ -4,7 +4,7 @@
 
 **Themed mechanical keyboard simulator** with realistic switch sounds, haptic feedback, anime & GTA VI themes, and beautiful neon visuals.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-black?style=for-the-badge)](https://mech-aurakeys.vercel.app)
+[![Live Demo](https://assets.grok.com/users/7aef2bc9-2859-4c8e-ab67-4a385fe6cf21/86aee852-70c2-4d15-b49c-77955f0ff14b/content)](https://mech-aurakeys.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 [![GitHub](https://img.shields.io/badge/GitHub-haseeb45555-blue?style=for-the-badge&logo=github)](https://github.com/haseeb45555)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Haseeb_Ullah-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/haseeb-ullah-0a64b9351/)
