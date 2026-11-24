@@ -488,3 +488,51 @@ input[type="range"].vol {
   .stage *, .key-pop { animation: none !important; }
   .underglow .ug-a { opacity: .45; }
 }
+
+/* =====================================================================
+   Phone tuning + Big keyboard mode
+   ===================================================================== */
+.big-root {
+  position: fixed; inset: 0; z-index: 100; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--neon-accent) 22%, #05050a), #05050a 75%);
+  touch-action: none; overscroll-behavior: none;
+}
+.big-pane {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  padding: max(12px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
+}
+/* Portrait phone: turn the pane 90deg so the long side of the screen carries the keyboard. */
+.big-pane.big-rotated {
+  inset: auto; top: 0; left: 100vw;
+  width: 100vh; width: 100dvh; height: 100vw; height: 100dvw;
+  transform-origin: 0 0; transform: rotate(90deg);
+}
+.big-kb { width: 100%; max-width: 1100px; }
+.big-last { height: 54px; display: flex; align-items: center; }
+.big-hint { font-size: 11px; color: rgba(255,255,255,.5); }
+.big-close {
+  position: absolute; top: 10px; right: 12px; z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; color: #fff;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+}
+.big-root, .big-root * { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.big-root [role="button"] { touch-action: none !important; }
+
+/* Lighter effects on touch screens so typing never stutters. */
+@media (pointer: coarse) {
+  .stage-gojo .orb { filter: blur(26px); }
+  .stage-gojo .rings { display: none; }
+  .stage-goku .rays { animation-duration: 90s; }
+  header { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .keyboard-frame, .key-neon { transition: none !important; }
+  html { -webkit-tap-highlight-color: transparent; }
+  body { overscroll-behavior-y: none; }
+}
+
+.toast {
+  position: fixed; left: 50%; bottom: max(24px, env(safe-area-inset-bottom)); transform: translateX(-50%);
+  z-index: 200; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  background: rgba(20,20,28,.92); color: #fff; border: 1px solid rgba(255,255,255,.18);
+}
