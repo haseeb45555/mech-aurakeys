@@ -55,6 +55,8 @@ export interface KeyboardProps {
   className?: string;
   align?: PreviewAlign;
   scale?: number;
+  /** Upper limit for the auto-fit zoom (1 = never enlarge). Big mode on phones raises it. */
+  maxFit?: number;
   /** Shrink the keyboard to fit narrow screens. Default true. */
   fit?: boolean;
   onKeyEvent?: (event: KeyboardInteractionEvent) => void;
@@ -211,7 +213,9 @@ const KeyCap = memo(function KeyCap({ k, bg, fg, pressed, neon, onDown, onUp }: 
     transform: pressed ? "translateY(2px)" : "none",
     boxShadow: neon ? undefined : baseShadow,
     touchAction: "manipulation",
-  };
+    WebkitTouchCallout: "none",
+    WebkitTapHighlightColor: "transparent",
+  } as CSSProperties;
 
   const faceStyle: CSSProperties = {
     position: "absolute",
@@ -244,6 +248,7 @@ const KeyCap = memo(function KeyCap({ k, bg, fg, pressed, neon, onDown, onUp }: 
       role="button"
       tabIndex={-1}
       aria-label={k.label || k.code}
+      onContextMenu={(e) => e.preventDefault()}
       onPointerDown={(e) => { e.preventDefault(); onDown(k.code, source(e)); }}
       onPointerUp={(e) => onUp(k.code, source(e))}
       onPointerCancel={(e) => onUp(k.code, source(e))}
@@ -294,6 +299,7 @@ export default function Keyboard({
   scale = 1,
   fit = true,
   onKeyEvent,
+  maxFit = 1,
 }: KeyboardProps) {
   const [activeKeys, setActiveKeys] = useState<Set<string>>(() => new Set());
   const activeRef = useRef<Set<string>>(new Set());
@@ -325,7 +331,7 @@ export default function Keyboard({
       const w = nat.offsetWidth;
       const h = nat.offsetHeight;
       const avail = parent.clientWidth;
-      const f = fit && avail > 0 && w > 0 ? Math.min(1, (avail - 4) / w) : 1;
+      const f = fit && avail > 0 && w > 0 ? Math.min(maxFit, (avail - 4) / w) : 1;
       setNatural((prev) =>
         prev.w === w && prev.h === h && Math.abs(prev.fit - f) < 0.001 ? prev : { w, h, fit: f },
       );
@@ -335,7 +341,7 @@ export default function Keyboard({
     ro.observe(parent);
     ro.observe(nat);
     return () => ro.disconnect();
-  }, [fit]);
+  }, [fit, maxFit]);
 
   const pressKey = useCallback((code: string, source: InteractionSource = "physical", shiftKey = false) => {
     if (source !== "physical" && activeRef.current.has(code)) return;
