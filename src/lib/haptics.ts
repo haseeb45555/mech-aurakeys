@@ -4,8 +4,8 @@ export type HapticLevel = "light" | "medium" | "strong";
 export const HAPTIC_LEVELS: HapticLevel[] = ["light", "medium", "strong"];
 
 // Most phone motors can't render anything under ~10ms, so keep these longer.
-const BASE_MS: Record<KeyKind, number> = { normal: 14, mod: 10, space: 28, enter: 34, back: 20 };
-const MULT: Record<HapticLevel, number> = { light: 0.7, medium: 1.2, strong: 2 };
+const BASE_MS: Record<KeyKind, number> = { normal: 16, mod: 12, space: 32, enter: 40, back: 24 };
+const MULT: Record<HapticLevel, number> = { light: 0.8, medium: 1.5, strong: 3 };
 
 let iosLabel: HTMLLabelElement | null = null;
 
@@ -39,6 +39,8 @@ export function haptic(code: string, level: HapticLevel = "medium") {
       navigator.vibrate(Math.round(BASE_MS[kindFor(code)] * MULT[level]));
     } else {
       iosTick();
+      // iPhones only get a tiny tick, so double it for a firmer feel.
+      if (level !== "light") setTimeout(iosTick, level === "strong" ? 35 : 55);
     }
   } catch { /* ignore */ }
 }
