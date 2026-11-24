@@ -1,104 +1,65 @@
-
-
 <div align="center">
 
-  <a href="https://keebkit.vercel.app/">
-    <img src="https://raw.githubusercontent.com/bilalmlkdev/keebkit/main/public/favicon.svg" alt="keebkit logo" width="100%" height="120">
-  </a>
+  <img src="./public/logo.png" alt="AuraKeys logo" width="120" height="120" style="border-radius: 24px;" />
 
-# keebkit
+# AuraKeys
 
-A keyboard component for React, with haptics, mechanical sound effects, six colorways, and <br> three layouts (QWERTY / AZERTY / Dvorak). Ships as a real shadcn registry item so it can be installed straight into any project.
+**Themed mechanical keyboard simulator** with realistic switch sounds, haptic feedback, anime & GTA VI themes, and beautiful neon visuals.
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-black?style=for-the-badge)](https://keebkit.vercel.app)
-[![GitHub Stars](https://img.shields.io/github/stars/bilalmlkdev/keebkit?style=for-the-badge&logo=github&color=yellow)](https://github.com/bilalmlkdev/keebkit.git)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-black?style=for-the-badge)](https://aurakeys.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-haseeb45555-blue?style=for-the-badge&logo=github)](https://github.com/haseeb45555)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Haseeb_Ullah-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/haseeb-ullah-0a64b9351/)
 
 </div>
 
-[![keebkit Dashboard](https://raw.githubusercontent.com/bilalmlkdev/keebkit/main/public/preview.png)](https://keebkit.vercel.app/)
+<br>
 
+<p align="center">
+  <img src="./public/preview.png" alt="AuraKeys Preview" width="100%" style="border-radius: 12px; max-width: 900px;" />
+</p>
 
-**Live site:** https://keebkit.vercel.app
+**Live site:** https://aurakeys.vercel.app  
+**Author:** [Haseeb Ullah](https://www.linkedin.com/in/haseeb-ullah-0a64b9351/)
 
-## Install
+---
 
-```bash
-pnpm dlx shadcn@latest add https://keebkit.vercel.app/r/keyboard.json
-```
+## Features
 
-Then grab the click sound and drop it in `public/sounds/`:
+- 🎹 **Realistic mechanical sounds** – thocky clicks with multiple sound packs
+- 📳 **Haptic feedback** – vibration on supported devices
+- 🎨 **20+ themes** across 4 groups:
+  - **Anime** → Gojo, Sukuna, Akatsuki, Eva-01, Tanjiro, Goku, Luffy, Levi, Naruto
+  - **GTA VI** → Vice City (neon Miami), Leonida (golden hour)
+  - **Games** → Minecraft, Valorant, Zelda, Mario
+  - **Classic** → Classic, Mint, Royal, Dolch, Sand, Scarlet
+- 🖼️ **Real artwork backgrounds** for anime & GTA themes
+- ⌨️ **Layouts** → QWERTY, AZERTY, Dvorak
+- ✨ Custom key legends, underglow, animated scenes
+- 📱 Fully responsive + PWA ready
 
-```bash
-mkdir -p public/sounds
-curl -L https://keebkit.vercel.app/sounds/click.ogg -o public/sounds/click.ogg
-```
+---
 
-## Usage
+## Themes
 
-```jsx
-import Keyboard from "@/components/ui/keyboard";
+| Group     | Themes                                                                 |
+|-----------|------------------------------------------------------------------------|
+| Anime     | Gojo, Sukuna, Akatsuki, Eva-01, Tanjiro, Goku, Luffy, Levi, Naruto    |
+| GTA VI    | Vice City, Leonida                                                     |
+| Games     | Minecraft, Valorant, Zelda, Mario                                      |
+| Classic   | Classic, Mint, Royal, Dolch, Sand, Scarlet                             |
 
-export default function Page() {
-  return (
-    <div className="flex min-h-96 w-full items-center justify-center">
-      <Keyboard theme="classic" enableHaptics enableSound />
-    </div>
-  );
-}
-```
+---
 
-## Props
-
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `theme` | `"classic" \| "mint" \| "royal" \| "dolch" \| "sand" \| "scarlet" \| "gojo" \| "vice"` | `"classic"` | Colorway (Gojo = Jujutsu Kaisen, Vice = GTA 6 / Miami neon) |
-| `layout` | `"qwerty" \| "azerty" \| "dvorak"` | `"qwerty"` | Key mapping |
-| `enableHaptics` | `boolean` | `true` | Vibrate on keydown (supported devices) |
-| `enableSound` | `boolean` | `true` | Play mechanical click on keydown |
-| `soundUrl` | `string` | `"/sounds/click.ogg"` | Path to the click sound |
-| `onKeyEvent` | `(event) => void` | `undefined` | Fires on every key down/up |
-| `className` | `string` | `undefined` | Extra classes on the frame |
-
-## Local dev
+## Local Development
 
 ```bash
+# Clone the repo
+git clone https://github.com/haseeb45555/aurakeys.git
+cd aurakeys
+
+# Install dependencies
 npm install
+
+# Start dev server
 npm run dev
-```
-
-## Deploy
-
-Deployed on Vercel. Push to your repo and import it in the Vercel dashboard - no config needed, it's a standard Vite app.
-
-
-If you enjoyed this project, consider giving it a ⭐ on GitHub. It helps others discover the project and motivates future improvements.
-
-# License (MIT)
-
-This project is licensed under the MIT License.
-
-```text
-MIT License
-
-Copyright (c) 2026 Bilal Malik
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
