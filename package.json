@@ -1,0 +1,31 @@
+{
+  "name": "keebkit",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint .",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "sync:registry": "node scripts/sync-registry.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^1.30.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.1.1",
+    "react-syntax-highlighter": "^16.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.1",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@vitejs/plugin-react": "^4.3.4",
+    "oxlint": "^1.87.0",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.0"
+  }
+}

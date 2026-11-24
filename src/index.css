@@ -1,0 +1,490 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Monoton&family=Press+Start+2P&family=Shippori+Mincho+B1:wght@700;800&family=Noto+Sans+JP:wght@500;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  --bg: #0d0d0f;
+  --panel: #111113;
+  --panel-2: #131316;
+  --border: rgba(255,255,255,0.08);
+  --border-soft: rgba(255,255,255,0.05);
+  --text: #e8e8ea;
+  --text-dim: #a1a1aa;
+  --text-mute: #71717a;
+  --text-faint: #52525b;
+  --code-text: #d4d4d8;
+}
+
+html.light {
+  --bg: #faf9f7;
+  --panel: #ffffff;
+  --panel-2: #f4f3f1;
+  --border: rgba(0,0,0,0.09);
+  --border-soft: rgba(0,0,0,0.06);
+  --text: #18181b;
+  --text-dim: #52525b;
+  --text-mute: #71717a;
+  --text-faint: #a1a1aa;
+  --code-text: #3f3f46;
+}
+
+/* Anime and GTA themes always use a dark stage, whatever the site mode is. */
+.scene-dark {
+  --bg: #07070b;
+  --panel: rgba(12,12,18,0.62);
+  --panel-2: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.12);
+  --border-soft: rgba(255,255,255,0.07);
+  --text: #f1f1f5;
+  --text-dim: #c4c4cf;
+  --text-mute: #9a9aa8;
+  --text-faint: #8a8a99;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+}
+
+body {
+  font-family: "Inter", "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-mono-key {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+button { cursor: pointer; }
+
+::selection {
+  background: #9b72ff;
+  color: #fff;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+:focus-visible {
+  outline: 2px solid var(--neon-accent, #9b72ff);
+  outline-offset: 2px;
+}
+
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(6px) scale(0.96); }
+  15% { opacity: 1; transform: translateY(0) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+}
+.key-pop {
+  animation: floatUp 0.5s ease-out forwards;
+}
+
+.kb-code pre, .kb-no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.kb-code pre::-webkit-scrollbar, .kb-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* =====================================================================
+   Keyboard: neon themes
+   Only opacity / transform are ever animated, so everything stays on the
+   GPU and typing never drops frames.
+   ===================================================================== */
+.kb-outer { position: relative; max-width: 100%; }
+.kb-scaler { will-change: transform; }
+
+.keyboard-neon {
+  z-index: 1;
+  border-color: color-mix(in srgb, var(--neon-accent) 45%, transparent) !important;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.6),
+    0 14px 40px rgba(0,0,0,.55),
+    inset 0 0 26px color-mix(in srgb, var(--neon-accent) 10%, transparent);
+}
+
+/* Underglow: two blurred layers that cross-fade. Blur is painted once. */
+.underglow {
+  position: absolute;
+  inset: -4px;
+  z-index: 0;
+  pointer-events: none;
+}
+.underglow i {
+  position: absolute;
+  inset: 8px -6px -14px;
+  border-radius: 26px;
+  filter: blur(26px);
+  will-change: opacity;
+}
+.underglow .ug-a { background: var(--neon-accent); opacity: .55; animation: ug-a 6s ease-in-out infinite; }
+.underglow .ug-b { background: var(--neon-b); opacity: 0; animation: ug-b 6s ease-in-out infinite; }
+
+@keyframes ug-a { 0%,100% { opacity: .6; } 50% { opacity: .12; } }
+@keyframes ug-b { 0%,100% { opacity: 0; } 50% { opacity: .6; } }
+
+.key-neon {
+  position: relative;
+  transition: transform 60ms ease-out, filter 90ms ease-out;
+}
+
+.key-neon:not(.key-pressed) {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.55),
+    0 0 7px color-mix(in srgb, var(--neon-accent) 28%, transparent),
+    inset 0 -2px 2px rgba(0,0,0,.28);
+}
+
+.key-neon.key-mod:not(.key-pressed) {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.55),
+    0 0 9px color-mix(in srgb, var(--neon-accent) 40%, transparent),
+    inset 0 -2px 2px rgba(0,0,0,.28);
+}
+
+.key-neon.key-accent:not(.key-pressed) {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.5),
+    0 0 10px var(--neon-accent),
+    inset 0 0 6px color-mix(in srgb, var(--neon-accent) 25%, transparent);
+}
+
+/* Accent keys breathe: a halo whose opacity pulses (no repaint). */
+.key-neon.key-accent::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: 0 0 16px var(--neon-accent), 0 0 30px var(--neon-accent);
+  opacity: .35;
+  animation: key-breathe 3s ease-in-out infinite;
+}
+@keyframes key-breathe { 0%,100% { opacity: .15; } 50% { opacity: .5; } }
+
+/* Press feedback: bright key plus a ring that flies outward. */
+.key-neon.key-pressed {
+  filter: brightness(1.3) saturate(1.1);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.6),
+    0 0 14px var(--neon-accent),
+    0 0 30px color-mix(in srgb, var(--neon-accent) 55%, transparent);
+}
+.key-neon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 1.5px solid var(--neon-accent);
+  opacity: 0;
+  pointer-events: none;
+}
+.key-neon.key-pressed::before { animation: key-ring 380ms ease-out; }
+@keyframes key-ring {
+  0% { opacity: .9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.55, 1.9); }
+}
+
+/* =====================================================================
+   Theme stages (page background behind the keyboard)
+   ===================================================================== */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--stage-bg, var(--bg));
+}
+.stage > * { position: absolute; }
+.stage { animation: stage-in .5s ease-out both; }
+@keyframes stage-in { from { opacity: 0; } to { opacity: 1; } }
+
+.stage-vignette {
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(0,0,0,.55) 100%);
+}
+
+/* ---- Vice City: sunset sky, striped sun, perspective grid, palms ---- */
+.stage-vice { --stage-bg: linear-gradient(180deg, #0a0220 0%, #2a0a4a 38%, #7a1b7e 62%, #ff4f9a 78%, #ff9a5c 88%, #12001a 88.2%, #12001a 100%); }
+.stage-vice .sun {
+  left: 50%; top: 36%; width: min(46vw, 420px); aspect-ratio: 1; margin-left: calc(min(46vw, 420px) / -2);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffe66d 10%, #ff5fa2 70%);
+  -webkit-mask-image: linear-gradient(#000 0 52%, transparent 52% 55%, #000 55% 63%, transparent 63% 67%, #000 67% 73%, transparent 73% 78%, #000 78% 83%, transparent 83% 89%, #000 89%);
+  mask-image: linear-gradient(#000 0 52%, transparent 52% 55%, #000 55% 63%, transparent 63% 67%, #000 67% 73%, transparent 73% 78%, #000 78% 83%, transparent 83% 89%, #000 89%);
+  opacity: .9;
+}
+.stage-vice .floor {
+  left: -50%; right: -50%; top: 88%; height: 140%;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,45,149,.55) 0 2px, transparent 2px 70px),
+    repeating-linear-gradient(0deg, rgba(0,240,255,.45) 0 2px, transparent 2px 56px),
+    linear-gradient(180deg, #2a0a4a, #12001a 70%);
+  transform-origin: top center;
+  transform: perspective(380px) rotateX(64deg);
+  animation: floor-run 2.4s linear infinite;
+}
+@keyframes floor-run {
+  from { transform: perspective(380px) rotateX(64deg) translateY(0); }
+  to { transform: perspective(380px) rotateX(64deg) translateY(56px); }
+}
+.stage-vice .palm-l { left: -2%; bottom: 8%; width: min(30vw, 320px); }
+.stage-vice .palm-r { right: -2%; bottom: 8%; width: min(26vw, 280px); transform: scaleX(-1); }
+
+/* ---- Leonida: golden-hour sea ---- */
+.stage-leonida { --stage-bg: linear-gradient(180deg, #0b2a3a 0%, #1d5a73 30%, #ff9a5c 58%, #ffd27a 66%, #0c4a57 66.2%, #06222b 100%); }
+.stage-leonida .sun {
+  left: 50%; top: 38%; width: min(34vw, 300px); aspect-ratio: 1; margin-left: calc(min(34vw, 300px) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6c9 0 40%, #ffd166 41% 70%, #ff9f43 100%);
+  box-shadow: 0 0 80px 20px rgba(255,170,80,.55);
+}
+.stage-leonida .sea {
+  left: 0; right: 0; top: 66%; bottom: 0;
+  background: repeating-linear-gradient(180deg, rgba(255,214,140,.22) 0 2px, transparent 2px 22px);
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 85%);
+  mask-image: linear-gradient(180deg, #000, transparent 85%);
+}
+.stage-leonida .palm-l { left: -2%; bottom: 10%; width: min(28vw, 300px); }
+.stage-leonida .palm-r { right: -2%; bottom: 10%; width: min(24vw, 260px); transform: scaleX(-1); }
+
+/* ---- Gojo: the void, Infinity rings, Blue + Red merging into Purple ---- */
+.stage-gojo { --stage-bg: radial-gradient(ellipse at 50% 38%, #101a3c 0%, #070b1c 55%, #03040b 100%); }
+.stage-gojo .stars {
+  inset: 0;
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 22%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 68%, #bff4ff 50%, transparent 51%),
+    radial-gradient(1.4px 1.4px at 44% 14%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 78%, #fff 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 81% 31%, #bff4ff 50%, transparent 51%),
+    radial-gradient(1px 1px at 92% 64%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 7% 86%, #fff 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 74% 9%, #fff 50%, transparent 51%);
+  opacity: .8;
+}
+.stage-gojo .orb {
+  width: min(36vw, 320px); aspect-ratio: 1; border-radius: 50%;
+  top: 6%; filter: blur(48px); will-change: transform;
+}
+.stage-gojo .orb-blue { left: 12%; background: #1fb6ff; opacity: .5; animation: orb-l 9s ease-in-out infinite; }
+.stage-gojo .orb-red { right: 12%; background: #ff2a4d; opacity: .42; animation: orb-r 9s ease-in-out infinite; }
+.stage-gojo .orb-purple { left: 50%; margin-left: calc(min(36vw, 320px) / -2); background: #a855ff; opacity: .5; animation: orb-p 9s ease-in-out infinite; }
+@keyframes orb-l { 0%,100% { transform: translateX(0); } 50% { transform: translateX(14vw); } }
+@keyframes orb-r { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-14vw); } }
+@keyframes orb-p { 0%,100% { transform: scale(.4); opacity: .08; } 50% { transform: scale(1); opacity: .55; } }
+.stage-gojo .rings { left: 50%; top: 52%; width: 150vmax; height: 150vmax; margin: -75vmax 0 0 -75vmax; }
+
+/* ---- Sukuna: blood moon and Dismantle cuts ---- */
+.stage-sukuna { --stage-bg: radial-gradient(ellipse at 50% 100%, #5a0a10 0%, #1a0508 45%, #070203 100%); }
+.stage-sukuna .moon {
+  left: 50%; top: 8%; width: min(30vw, 260px); aspect-ratio: 1; margin-left: calc(min(30vw, 260px) / -2);
+  border-radius: 50%; background: radial-gradient(circle at 40% 40%, #ff5a4a, #8a0a12 70%);
+  box-shadow: 0 0 90px 10px rgba(255,40,40,.35); opacity: .75;
+}
+.stage-sukuna .cuts { inset: 0; width: 100%; height: 100%; }
+
+/* ---- Akatsuki: red clouds on black ---- */
+.stage-akatsuki { --stage-bg: radial-gradient(ellipse at 50% 30%, #1a0a0c 0%, #070709 70%); }
+.stage-akatsuki .clouds { inset: 0; width: 100%; height: 100%; opacity: .5; }
+
+/* ---- Evangelion: hex grid and hazard bands ---- */
+.stage-eva { --stage-bg: radial-gradient(ellipse at 50% 35%, #2a1352 0%, #0d0617 70%); }
+.stage-eva .hex { inset: 0; width: 100%; height: 100%; opacity: .55; }
+.stage-eva .band {
+  left: 0; right: 0; height: 14px;
+  background: repeating-linear-gradient(-45deg, #ff9a1f 0 14px, #0d0617 14px 28px);
+  opacity: .8;
+}
+.stage-eva .band-t { top: 0; }
+.stage-eva .band-b { bottom: 0; }
+
+/* ---- Tanjiro: haori checker, flame glow ---- */
+.stage-tanjiro { --stage-bg: #060d09; }
+.stage-tanjiro .checker {
+  inset: 0;
+  background: conic-gradient(#1b6a47 25%, #0a0a0a 0 50%, #1b6a47 0 75%, #0a0a0a 0) 0 0 / 96px 96px;
+  opacity: .32;
+}
+.stage-tanjiro .flame {
+  left: 0; right: 0; bottom: 0; height: 55%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,110,30,.55), transparent 65%);
+  animation: flame 4s ease-in-out infinite;
+  will-change: opacity;
+}
+@keyframes flame { 0%,100% { opacity: .7; } 50% { opacity: 1; } }
+
+
+/* =====================================================================
+   New anime + game stages
+   ===================================================================== */
+.stage-goku { --stage-bg: radial-gradient(ellipse at 50% 70%, #3a2400 0%, #0b0f24 60%, #05070f 100%); }
+.stage-goku .rays {
+  left: 50%; top: 62%; width: 200vmax; height: 200vmax; margin: -100vmax 0 0 -100vmax;
+  background: repeating-conic-gradient(from 0deg, rgba(255,214,60,.20) 0 6deg, transparent 6deg 18deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0 8%, transparent 45%);
+  mask-image: radial-gradient(circle, #000 0 8%, transparent 45%);
+  animation: spin 60s linear infinite; will-change: transform;
+}
+.stage-goku .aura {
+  left: 0; right: 0; bottom: 0; height: 70%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,210,50,.55), transparent 65%);
+  animation: flame 3s ease-in-out infinite; will-change: opacity;
+}
+.stage-goku .balls { inset: 0; }
+.stage-goku .ball {
+  position: absolute; width: 18px; height: 18px; border-radius: 50%;
+  left: calc(8% + var(--i) * 12%); top: calc(14% + (var(--i) * 37 % 5) * 6%);
+  background: radial-gradient(circle at 35% 30%, #fff1a8, #ff9a1f 60%, #c45a00);
+  box-shadow: 0 0 14px rgba(255,160,30,.7); opacity: .75;
+  animation: bob 5s ease-in-out infinite; animation-delay: calc(var(--i) * -.7s);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+
+.stage-luffy { --stage-bg: linear-gradient(180deg, #14325a 0%, #ff8f5a 48%, #ffd27a 60%, #0a3a66 60.2%, #04182e 100%); }
+.stage-luffy .sun {
+  left: 50%; top: 34%; width: min(30vw, 260px); aspect-ratio: 1; margin-left: calc(min(30vw, 260px) / -2);
+  border-radius: 50%; background: radial-gradient(circle, #fff3c0 0 45%, #ffcf3a 100%);
+  box-shadow: 0 0 90px 20px rgba(255,190,70,.5);
+}
+.stage-luffy .sea { left: 0; right: 0; top: 60%; bottom: 0; background: linear-gradient(180deg, rgba(255,210,120,.25), transparent 70%); }
+.stage-luffy .wave {
+  left: -10%; right: -10%; height: 90px; opacity: .5;
+  background: repeating-radial-gradient(ellipse at 50% 100%, transparent 0 18px, rgba(120,200,255,.35) 19px 21px, transparent 22px 40px);
+  animation: sway 7s ease-in-out infinite; will-change: transform;
+}
+.stage-luffy .wave-a { top: 62%; }
+.stage-luffy .wave-b { top: 74%; animation-duration: 10s; animation-direction: reverse; opacity: .35; }
+.stage-luffy .hat { left: 50%; top: 20%; width: min(26vw, 220px); margin-left: calc(min(26vw, 220px) / -2); opacity: .85; animation: bob 6s ease-in-out infinite; }
+@keyframes sway { 0%,100% { transform: translateX(-3%); } 50% { transform: translateX(3%); } }
+
+.stage-levi { --stage-bg: linear-gradient(180deg, #121a16 0%, #1b2a22 55%, #0a0f0c 100%); }
+.stage-levi .mist {
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 70%, rgba(200,220,210,.14), transparent 55%), radial-gradient(ellipse at 75% 60%, rgba(200,220,210,.1), transparent 55%);
+  animation: sway 14s ease-in-out infinite; will-change: transform;
+}
+.stage-levi .wings { left: 50%; top: 14%; width: min(88vw, 900px); margin-left: calc(min(88vw, 900px) / -2); opacity: .5; }
+.stage-levi .wall { left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(180deg, #1a211d, #0a0e0c); clip-path: polygon(0 40%, 8% 40%, 8% 20%, 16% 20%, 16% 40%, 100% 40%, 100% 100%, 0 100%); }
+
+.stage-naruto { --stage-bg: radial-gradient(ellipse at 50% 40%, #1c2d6a 0%, #0a0c18 70%); }
+.stage-naruto .swirl {
+  left: 50%; top: 42%; width: min(80vmin, 640px); aspect-ratio: 1; margin: calc(min(80vmin, 640px) / -2) 0 0 calc(min(80vmin, 640px) / -2);
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(90,190,255,.28) 0 14deg, transparent 14deg 30deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0 55%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 0 55%, transparent 70%);
+  filter: blur(1px); animation: spin 14s linear infinite; will-change: transform;
+}
+.stage-naruto .leaves { inset: 0; }
+.stage-naruto .leaf {
+  position: absolute; top: -6%; left: calc(var(--i) * 14%); width: 14px; height: 18px;
+  border-radius: 0 100% 0 100%; background: #3fbf6a; opacity: .6;
+  animation: fall 9s linear infinite; animation-delay: calc(var(--i) * -1.3s);
+}
+@keyframes fall { to { transform: translate(60px, 110vh) rotate(540deg); } }
+
+.stage-minecraft { --stage-bg: linear-gradient(180deg, #6db8ff 0%, #b8e0ff 62%, #5dd13a 62.2%, #5dd13a 64%, #8b5a2b 64.2%, #5e3a1a 100%); }
+.stage-minecraft .sun { right: 12%; top: 10%; width: 70px; height: 70px; background: #fff7b0; box-shadow: 0 0 40px 10px rgba(255,240,150,.6); }
+.stage-minecraft .cloud { height: 36px; background: #fff; opacity: .85; image-rendering: pixelated; box-shadow: 36px -18px 0 #fff, 72px 0 0 #fff; width: 72px; animation: drift 60s linear infinite; }
+.stage-minecraft .cloud-a { top: 16%; left: 8%; }
+.stage-minecraft .cloud-b { top: 30%; left: 55%; animation-duration: 80s; opacity: .6; }
+.stage-minecraft .ground {
+  left: 0; right: 0; top: 64%; bottom: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.18) 0 2px, transparent 2px) 0 0 / 48px 48px,
+    linear-gradient(0deg, rgba(0,0,0,.18) 0 2px, transparent 2px) 0 0 / 48px 48px;
+}
+@keyframes drift { from { transform: translateX(-20vw); } to { transform: translateX(120vw); } }
+
+.stage-valorant { --stage-bg: linear-gradient(180deg, #0f1923 0%, #0b0f14 100%); }
+.stage-valorant .grid {
+  inset: 0; opacity: .5;
+  background:
+    linear-gradient(90deg, rgba(236,232,225,.06) 0 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(0deg, rgba(236,232,225,.06) 0 1px, transparent 1px) 0 0 / 64px 64px;
+}
+.stage-valorant .slash { height: 120vh; width: 18vw; background: linear-gradient(180deg, rgba(255,70,85,.0), rgba(255,70,85,.45), rgba(255,70,85,0)); transform: skewX(-24deg); top: -10vh; animation: sweep 9s ease-in-out infinite; will-change: transform; }
+.stage-valorant .slash-a { left: 10%; }
+.stage-valorant .slash-b { left: 48%; animation-delay: -3s; opacity: .6; width: 10vw; }
+.stage-valorant .slash-c { left: 80%; animation-delay: -6s; opacity: .8; }
+@keyframes sweep { 0%,100% { transform: skewX(-24deg) translateX(-4vw); } 50% { transform: skewX(-24deg) translateX(4vw); } }
+
+.stage-zelda { --stage-bg: radial-gradient(ellipse at 50% 40%, #12402b 0%, #07140e 70%); }
+.stage-zelda .glow { left: 50%; top: 38%; width: min(70vmin, 560px); aspect-ratio: 1; margin: calc(min(70vmin, 560px) / -2) 0 0 calc(min(70vmin, 560px) / -2); border-radius: 50%; background: radial-gradient(circle, rgba(227,197,104,.35), transparent 65%); animation: flame 5s ease-in-out infinite; }
+.stage-zelda .tri { left: 50%; top: 22%; width: min(34vw, 260px); margin-left: calc(min(34vw, 260px) / -2); opacity: .5; filter: drop-shadow(0 0 24px rgba(227,197,104,.7)); animation: bob 7s ease-in-out infinite; }
+.stage-zelda .motes { inset: 0; }
+.stage-zelda .mote { position: absolute; bottom: -4%; left: calc(6% + var(--i) * 12%); width: 6px; height: 6px; border-radius: 50%; background: #aaf5ff; box-shadow: 0 0 10px #7ff0ff; opacity: .7; animation: rise 10s linear infinite; animation-delay: calc(var(--i) * -1.2s); }
+@keyframes rise { to { transform: translateY(-110vh); opacity: 0; } }
+
+.stage-mario { --stage-bg: linear-gradient(180deg, #5c94fc 0%, #a8d0ff 70%, #5c94fc 100%); }
+.stage-mario .cloud { width: 90px; height: 34px; background: #fff; border-radius: 40px; box-shadow: 30px -16px 0 -2px #fff, 60px 0 0 #fff; opacity: .9; animation: drift 70s linear infinite; }
+.stage-mario .cloud-a { top: 14%; left: 6%; }
+.stage-mario .cloud-b { top: 28%; left: 58%; animation-duration: 95s; opacity: .7; }
+.stage-mario .hill { left: -10%; width: 60%; bottom: 14%; height: 24%; background: #1fa34a; border-radius: 50% 50% 0 0; box-shadow: 60vw 0 0 -4vw #168a3c; }
+.stage-mario .bricks {
+  left: 0; right: 0; bottom: 0; height: 14%;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.35) 0 2px, transparent 2px) 0 0 / 56px 28px,
+    linear-gradient(0deg, rgba(0,0,0,.35) 0 2px, transparent 2px) 0 0 / 56px 28px,
+    #c84c0c;
+}
+
+/* Optional real artwork dropped in public/bg/<theme>.jpg */
+.bg-art { inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s ease; }
+.bg-art-on { opacity: .55; }
+
+.hero-title.font-pixel { font-family: "Press Start 2P", "Space Grotesk", monospace; font-weight: 400; letter-spacing: 0; font-size: clamp(26px, 6vw, 58px); line-height: 1.2; }
+
+/* ---- Theme headline ---- */
+.hero-title {
+  line-height: 1.02;
+  font-size: clamp(44px, 9vw, 92px);
+  background: linear-gradient(100deg, var(--neon-accent), var(--neon-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--neon-accent) 55%, transparent));
+}
+.hero-title.font-neon { font-family: "Monoton", "Space Grotesk", sans-serif; letter-spacing: .02em; font-weight: 400; }
+.hero-title.font-mincho { font-family: "Shippori Mincho B1", "Noto Sans JP", serif; font-weight: 800; letter-spacing: .01em; }
+.hero-title.font-display { font-family: "Space Grotesk", sans-serif; font-weight: 700; letter-spacing: -.02em; }
+
+.kanji-side {
+  position: absolute;
+  top: 50%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+  font-family: "Shippori Mincho B1", "Noto Sans JP", serif;
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 34px);
+  letter-spacing: .5em;
+  color: var(--neon-accent);
+  opacity: .55;
+  text-shadow: 0 0 18px var(--neon-accent);
+  user-select: none;
+}
+
+.chip {
+  transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+input[type="range"].vol {
+  accent-color: var(--neon-accent, #9b72ff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .underglow i, .key-neon.key-accent::after, .key-neon.key-pressed::before,
+  .stage *, .key-pop { animation: none !important; }
+  .underglow .ug-a { opacity: .45; }
+}
